@@ -19,16 +19,16 @@ function createWindow () {
   win = new BrowserWindow({    
     minHeight: 275,
     minWidth: 275,
-    maxHeight: 275,
-    maxWidth: 275,
-    height: 275,
+    maxHeight: 320,
+    maxWidth: 320,
+    height: 320,
+    width: 320,
     useContentSize: false,
-    width: 275,
     webPreferences: {
       nodeIntegration: true,
       nodeIntegrationInWorker: true
     },
-    icon: `${__static}/clock.ico`
+    icon: `${__static}/clock-256.ico`
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -44,6 +44,8 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   })
+
+  win.removeMenu();
 }
 
 // Quit when all windows are closed.

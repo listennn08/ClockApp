@@ -22,10 +22,10 @@ module.exports = {
         electronBuilder: {
             builderOptions: {
                 win: {
-                    icon: './public/clock.ico'
+                    icon: './public/clock-256.ico'
                 },
                 mac: {
-                    icon: './public/clock.png'
+                    icon: './public/clock-512.png'
                 },
                 productName: 'ClockApp'
             }
