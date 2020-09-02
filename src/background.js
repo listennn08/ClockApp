@@ -28,6 +28,9 @@ function createWindow () {
       nodeIntegration: true,
       nodeIntegrationInWorker: true
     },
+    transparent: true,
+    frame: false,
+    autoHideMenuBar: true,
     icon: `${__static}/clock-256.ico`
   })
 

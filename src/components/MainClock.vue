@@ -17,6 +17,49 @@
         </div>
     </div>
 </template>
+<script>
+export default {
+    name: 'mainclock',
+    data (){
+        return {
+            time: null,
+            baseDate: new Date('2019/03/20'),
+        }
+    },
+    created() {
+        this.timeAction();
+    },
+    methods: {
+        timeAction () {
+            setInterval( () => {
+                let nowTime = new Date();
+                let hour = nowTime.getHours() > 12 ? nowTime.getHours() - 12 : nowTime.getHours();
+                let min = nowTime.getMinutes();
+                let sec = nowTime.getSeconds();
+                let ampm = nowTime.getHours() >= 12 ? 'PM' : 'AM';
+                document.querySelector('.hour').style.transform =  `rotate(${(hour * 30) + (0.5 * min)}deg)`;
+                document.querySelector('.minute').style.transform = `rotate(${min * 6}deg)`;
+                document.querySelector('.second').style.transform = `rotate(${sec * 6}deg)`;
+                this.time = `${hour > 9 ? hour : "0" + hour}:${min>9 ? min : "0" + min}:${sec > 9 ? sec : "0" + sec} ${ampm}`;
+            }, 1000);
+            setInterval( () => {
+                this.monthDiff(nowTime);
+            }, 1000*360*6)
+        },
+        monthDiff(fromDate) {
+            let celebrateDay = fromDate.getMonth() - this.baseDate.getMonth() + (12 * (fromDate.getFullYear() - this.baseDate.getFullYear()));
+            let dis = document.querySelector('.pyro').style.display;
+            console.log(dis)
+            if (fromDate.getDate() == 10 && !dis) {
+                document.querySelector('.pyro').style.display = "block";
+                setTimeout(()=>{
+                    document.querySelector('.pyro').style.display = "none";
+                }, 2000)
+            }
+        }
+    }
+}
+</script>
 <style lang="scss" scope>
     @import url("https://fonts.googleapis.com/css2?family=Titillium Web");
     @mixin lowheight() {
@@ -38,7 +81,7 @@
 
     }
     body {
-        background: rgba(0, 40, 40, 50%);
+        // background: rgba(0, 40, 40, 50%);
         overflow: hidden;
     }
     .wrap {
@@ -86,12 +129,13 @@
         bottom: 0;
         margin: auto;
         transform-origin: 50% 80%;
+        z-index: 2;
     }
     .minute {
         position: absolute;
         width: $wid/1.5;
         height: 90px;
-        background: #446553;
+        background: #668853;
         transform-origin: 50% 80%;
         top: -54px;
         left: -1px;
@@ -99,6 +143,7 @@
         bottom: 0;
         margin: auto;
         transform: rotate(90deg);
+        z-index: 3;
     }
     .second {
         position: absolute;
@@ -112,6 +157,7 @@
         bottom: 0;
         margin: auto;
         transform: rotate(250deg);
+        z-index: 4;
     }
     .digital {
         position: fixed;
@@ -119,6 +165,8 @@
         text-align: center;
         top: 30%;
         transition: all .2s;
+        z-index: 1;
+        opacity: .8;
         .digital-text {
             position: absolute;
             width: 150px;
@@ -269,46 +317,3 @@
         }
     }
 </style>
-<script>
-export default {
-    name: 'mainclock',
-    data (){
-        return {
-            time: null,
-            baseDate: new Date('2019/03/20'),
-        }
-    },
-    created() {
-        this.timeAction();
-    },
-    methods: {
-        timeAction () {
-            setInterval( () => {
-                let nowTime = new Date();
-                let hour = nowTime.getHours() > 12 ? nowTime.getHours() - 12 : nowTime.getHours();
-                let min = nowTime.getMinutes();
-                let sec = nowTime.getSeconds();
-                let ampm = nowTime.getHours() >= 12 ? 'PM' : 'AM';
-                document.querySelector('.hour').style.transform =  `rotate(${(hour * 30) + (0.5 * min)}deg)`;
-                document.querySelector('.minute').style.transform = `rotate(${min * 6}deg)`;
-                document.querySelector('.second').style.transform = `rotate(${sec * 6}deg)`;
-                this.time = `${hour > 9 ? hour : "0" + hour}:${min>9 ? min : "0" + min}:${sec > 9 ? sec : "0" + sec} ${ampm}`;
-            }, 1000);
-            setInterval( () => {
-                this.monthDiff(nowTime);
-            }, 1000*360*6)
-        },
-        monthDiff(fromDate) {
-            let celebrateDay = fromDate.getMonth() - this.baseDate.getMonth() + (12 * (fromDate.getFullYear() - this.baseDate.getFullYear()));
-            let dis = document.querySelector('.pyro').style.display;
-            console.log(dis)
-            if (fromDate.getDate() == 10 && !dis) {
-                document.querySelector('.pyro').style.display = "block";
-                setTimeout(()=>{
-                    document.querySelector('.pyro').style.display = "none";
-                }, 2000)
-            }
-        }
-    }
-}
-</script>
